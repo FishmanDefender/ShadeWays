@@ -1,28 +1,60 @@
 $(document).ready(function () {
 
+    let startLat;
+    let startLong;
+
+    let endLat;
+    let endLong;
+
+    function Position(lat, long){
+        this.lat = lat;
+        this.long = long;
+    }
+
+
     $('#search').click(function(){
         let startLoc = $('#startLoc').val();
         let endLoc = $('#endLoc').val();
 
-        console.log(startLoc);
+        $.ajax({
+            url : `https://maps.googleapis.com/maps/api/geocode/json?address=${startLoc}&key=${apiKey}`,
+            method : "GET"
+        }).then(function(response){
+            startLat = response.results[0].geometry.location.lat;
+            startLong = response.results[0].geometry.location.lng;
 
-        console.log(endLoc);
+            $.ajax({
+                url : `https://maps.googleapis.com/maps/api/geocode/json?address=${endLoc}&key=${apiKey}`,
+                method : "GET"
+            }).then(function(response){
+                endLat = response.results[0].geometry.location.lat;
+                endLong = response.results[0].geometry.location.lng;
+
+                let startObj = new Position(startLat, startLong);
+                let endObj = new Position(endLat, endLong);
+
+                console.log(startObj);
+                console.log(endObj);
+            });
+        });
+
+
     });
 
     // option for current location
-    navigator.geolocation.getCurrentPosition(function(pos){
-        console.log(pos);
-        // convert coords to city name
-        $.ajax({
-            url : "https://api.opencagedata.com/geocode/v1/json?q=" + pos.coords.latitude + "+" + pos.coords.longitude + "&key=e16da4bde78f454b9bbb8c21599196e6",
-            method : "GET"
-        }).then(function(response){
-            if(!pastCities.includes(response.results[0].components.city)){
-                city = response.results[0].components.city;
-                pastCities.unshift(city);
-                localStorage.setItem("pastCities", JSON.stringify(pastCities));
-                getCity();
-            }
+    $('#currentLoc').click(function(){
+        navigator.geolocation.getCurrentPosition(function(pos){
+            console.log(pos);
+            startLat = pos.coords.latitude;
+            startLong = pos.coords.longitude;
+            // convert coords to address
+            $.ajax({
+                url : `https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.coords.latitude},${pos.coords.longitude}&key=${apiKey}`,
+                method : "GET"
+            }).then(function(response){
+                // console.log(response.results[0].formatted_address);
+                $('#startLoc').val(response.results[0].formatted_address);
+            });
         });
     });
 
