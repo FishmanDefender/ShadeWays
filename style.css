@@ -1,0 +1,38 @@
+#map {
+    height: 100%;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+.container{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#startLoc, #endLoc, #search, label{
+    /* position: absolute; */
+    margin: 1% auto;
+}
+
+#startLoc, label[for="startLoc"]{
+    top: 0;
+}
+
+#endLoc, label[for="endLoc"]{
+    top: 30px;
+}
+
+#search{
+    top: 60px;
+}
+
