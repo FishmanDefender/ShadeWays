@@ -12,7 +12,6 @@ area[name="Tucson"];
 (node["building"="yes"](area);
  way["building"="yes"](area);
  rel["building"="yes"](area);
- ._; >;
 );
 out center;
 """
