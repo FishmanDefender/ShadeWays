@@ -1,19 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="./js/script.js"></script>
+<html>
+  <head>
+    <style>
+      #map {
+        height: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <style src="style.css"></style>
+
+    <!-- <script src="./js/script.js"></script> -->
     <script src="./js/jquery-3.4.1.min.js"></script>
-    <title>ShadeWays</title>
-</head>
-<body>
-    <div id="map">Map will go here</div>
+    <script src="apiKey.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
 
-    <input type="text" id="start">
-    <input type="text" id="end">
+    <input type="text" id="startLoc">
+    <input type="text" id="endLoc">
 
-    <button id="submit"></button>
-</body>
+    <button id="search">Search</button>
+    <script>
+      let map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: new google.maps.LatLng(2.8,-187.3),
+          mapTypeId: 'terrain'
+        });
+
+        let script = document.createElement('script');
+        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+      }
+
+      function genScript(){
+        let scriptAD = document.createElement('script');
+        console.log(scriptAD);
+        scriptAD.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+        scriptAD.async = true;
+        scriptAD.defer = true;
+        document.getElementsByTagName('head')[0].appendChild(scriptAD);
+      }
+
+      genScript();
+      //change eqfeed_callback in script.src
+      window.eqfeed_callback = function(results) {
+        for (let i = 0; i < results.features.length; i++) {
+          let coords = results.features[i].geometry.coordinates;
+          let latLng = new google.maps.LatLng(coords[1],coords[0]);
+          let marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+          });
+        }
+      }
+    </script>
+    <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=initMap">
+    </script> -->
+  </body>
 </html>
