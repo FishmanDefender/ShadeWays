@@ -1,10 +1,12 @@
-import shadow_calc as sc
-from sc.shadowFinder import *
-from sc.test_code_cleaned import *
-from sc.osm_api import *
-from sc.overlap import *
+import sys
+sys.path.append("../../../ShadeWays")
+import shadow_calc
+from shadow_calc.shadowFinder import *
+from shadow_calc.test_code_cleaned import *
+from shadow_calc.osm_api import *
+from shadow_calc.overlap import *
 
-def main(tup_start, tup_end):
+def core(tup_start, tup_end):
     path_coords, directions_result = googleapi(tup_start, tup_end)
     osm = OSMAPI(path_coords)
     osm.run_pointwise_query()
@@ -13,3 +15,5 @@ def main(tup_start, tup_end):
     shadowlist = shadowFinder(important_values, lat0, long0)
     percent = overlap(shadowlist,path_coords)
     return percent, directions_result
+
+print(core((34,-118),(35,-115))[0])
