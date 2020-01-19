@@ -16,6 +16,7 @@ $(document).ready(function () {
         let startLoc = $('#startLoc').val();
         let endLoc = $('#endLoc').val();
 
+        // convert address to coords
         $.ajax({
             url : `https://maps.googleapis.com/maps/api/geocode/json?address=${startLoc}&key=${apiKey}`,
             method : "GET"
@@ -35,6 +36,26 @@ $(document).ready(function () {
 
                 console.log(startObj);
                 console.log(endObj);
+
+                // ajax request to python server
+                
+
+                $(".change").attr({
+                    class: "change min addy"
+                });
+
+                $(".container").attr({
+                    class: "container move"
+                });
+
+                $("#currentLoc").hide();
+
+                $(".logo").hide();
+
+                $("#search").hide();
+
+                $(".addy").css("width", "40vw");
+
             });
         });
 

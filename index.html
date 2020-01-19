@@ -12,19 +12,24 @@
     <div id="map"></div>
 
     <div class="container">
+      <div class="logo">
+        <img src="logoshadow.svg" alt="sun shining over buildings"> <h1 id="logoText">ShadeWays</h1>
+        <h2 class="logo"><em>"ShadeWays, real name TBA"</em></h2>
+      </div>
+
         <div class="start">
             <!-- <label for="startLoc">Walk from:</label> -->
-            <input type="text" id="startLoc" placeholder="Starting Location">
-            <button id="currentLoc">UCL</button>
+            <input type="text" class="change addy" id="startLoc" placeholder="Starting Location">
+            <button id="currentLoc">Use current location</button>
         </div>
         
         <div class="end">
             <!-- <label for="endLoc">To:</label> -->
-            <input type="text" id="endLoc" placeholder="Destination">
+            <input type="text" class="change addy" id="endLoc" placeholder="Destination">
         </div>
         
     
-        <button id="search">Search</button>
+        <button class="change" id="search">Search</button>
     </div>
     
     <script>
@@ -33,7 +38,8 @@
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
           center: new google.maps.LatLng(34.0995,-118.3430),
-          mapTypeId: 'terrain'
+          mapTypeId: 'roadmap',
+          disableDefaultUI: true
         });
 
         let script = document.createElement('script');
