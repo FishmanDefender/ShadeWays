@@ -67,6 +67,8 @@ class OSMAPI:
 
         lat, long, heights, widths = [], [], [], []
         for elem in elements:
+            if not 'height' in elem['tags'].keys():
+                continue
             if elem['type'] == 'node':
                 lat.append(float(elem['lat']))
                 long.append(float(elem['lon']))
