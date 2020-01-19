@@ -67,14 +67,14 @@ class OSMAPI:
 
         lat, long, heights, widths = [], [], [], []
         for elem in elements:
-            if not 'height' in elem['tags'].keys():
-                continue
+            #if not 'height' in elem['tags'].keys():
+            #    continue
             if elem['type'] == 'node':
                 lat.append(float(elem['lat']))
                 long.append(float(elem['lon']))
                 heights.append(float(elem['tags']['height']))
                 widths.append(0.0)
-            if elem['type'] == 'way' or 'relation':
+            if elem['type'] == 'way':# or 'relation':
                 minlat, minlon, maxlat, maxlon = elem['bounds']['minlat'], elem['bounds']['minlon'], elem['bounds']['maxlat'], elem['bounds']['maxlon']
                 lat.append(float((maxlat-minlat)/2)+minlat)
                 long.append(float((maxlon-minlon)/2)+minlon)

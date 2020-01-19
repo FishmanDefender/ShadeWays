@@ -15,4 +15,4 @@ def core2(tup_start, tup_end):
     percent = overlap(shadowlist,path_coords)
     return percent, directions_result
 
-print(core2((34,-118),(35,-115))[0])
+print(core2((51.0519,13.7415),(51.0519,13.7460))[0])

@@ -14,17 +14,18 @@ Grid method of calculating overlap:
 	1.3: Make grid: might be best to use a numpy.linspace.
 '''
     path_lat, path_long = [x[0] for x in path_coords], [x[1] for x in path_coords]
-    path_bounds = (min(path_lat), min(path_long), max(path_lat), max(path_long))
+    path_bounds = (round(min(path_lat),6), round(min(path_long),6), round(max(path_lat),6), round(max(path_long),6))
     delta_lat, delta_long = (path_bounds[2]-path_bounds[0]), (path_bounds[3]-path_bounds[1])
+'''
 <<<<<<< HEAD
     grid_spacing = max(delta_lat,delta_long)/10000
     grid_lat, grid_long = list(np.arange(path_bounds[0],delta_lat+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta_long+path_bounds[1],grid_spacing))
 =======
+'''
     #grid_spacing = max(delta_lat,delta_long)/10000
     delta = max(delta_lat,delta_long)
     grid_spacing = 1e-6
     grid_lat, grid_long = list(np.arange(path_bounds[0],delta+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta+path_bounds[1],grid_spacing))
->>>>>>> 17be4ab89d96217233b59751846f1e7a133bf1a1
 
     interpolated_path = []
     for i in range(len(path_coords)-1):
@@ -38,6 +39,7 @@ Grid method of calculating overlap:
     Then to coerce the result points to the grid points.
     Then to remove any duplicate points.
 '''
+'''
 <<<<<<< HEAD
 
     grid_path_associations = []
@@ -46,6 +48,7 @@ Grid method of calculating overlap:
             for point in interpolated_path:
                 if
 =======
+'''
     path_grid_index = []
     path_lengths = []
     point_holder = []
@@ -67,9 +70,8 @@ Grid method of calculating overlap:
                 k = k + 1
     #remove duplicates from the list
     path_grid_index = list(dict.fromkeys(path_grid_index))
-    
 
->>>>>>> 17be4ab89d96217233b59751846f1e7a133bf1a1
+
 
 
 '''
@@ -113,3 +115,4 @@ Grid method of calculating overlap:
 
     good_point_index = list(set(good_point_index))
     percent = len(good_point_index)/len(interpolated_path)
+    return percent
