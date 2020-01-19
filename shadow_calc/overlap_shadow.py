@@ -19,6 +19,9 @@ Grid method of calculating overlap:
     grid_spacing = max(delta_lat,delta_long)/10000
     grid_lat, grid_long = list(np.arange(path_bounds[0],delta_lat+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta_long+path_bounds[1],grid_spacing))
 
+    interpolated_path = []
+    for i in range(len(path_coords)-1):
+        interpolated_path.extend(list(np.arange(path_coords[i],path_coords[i+1],grid_spacing/2)))
 
 '''
 2. Associate grid points with the path. Store them in a list.
@@ -29,6 +32,12 @@ Grid method of calculating overlap:
     Then to remove any duplicate points.
 '''
 
+    grid_path_associations = []
+    for lat_val in grid_lat:
+        for long_val in grid_long:
+            for point in interpolated_path:
+                if
+
 
 '''
 3. Import the shadow parallelograms. Associate grid points with the shadows. Remove duplicate points from the list.
@@ -38,3 +47,15 @@ Grid method of calculating overlap:
 	3.4 Collect all the grid points that were in shadow in a list.
 4. Search each path point in the shadow list to see if it has a match. The number of path tuples that have matches out of the total gives the shadow percent.
 '''
+
+    shadow_coords = []
+    for rectangle in shadowlist:
+        shadow_coords=[rectangle[i:i+2] for i in range(0,len(rectangle),2)]
+
+        shadow_lat, shadow_long = [x[0] for x in shadow_coords], [x[1] for x in shadow_coords]
+        shadow_bounds = (min(shadow_lat), min(shadow_long), max(shadow_lat), max(shadow_long))
+        s_delta_lat, s_delta_long = (shadow_bounds[2]-shadow_bounds[0]), (shadow_bounds[3]-shadow_bounds[1])
+        s_grid_spacing = max(s_delta_lat,s_delta_long)/1000
+        s_grid_lat, s_grid_long = list(np.arange(shadow_bounds[0],s_delta_lat+shadow_bounds[0],s_grid_spacing)),list(np.arange(shadow_bounds[1],s_delta_long+shadow_bounds[1],s_grid_spacing))
+
+        lat_
