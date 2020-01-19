@@ -44,7 +44,7 @@ class OSMAPI:
         );\
         out geom;\
         '
-        print(self.overpass_query)
+        # print(self.overpass_query)
         self.response = requests.get(self.overpass_url, params={'data': self.overpass_query})
         self.query_data.append(self.response.json())
         self.query_data = np.array(self.query_data)
@@ -63,7 +63,7 @@ class OSMAPI:
 
         elements = []
         [elements.extend(dic['elements']) for dic in list(self.query_data)]
-        print(elements)
+        # print(elements)
 
         lat, long, height, width = [], [], [], []
         for elem in elements:
@@ -86,7 +86,7 @@ class OSMAPI:
         DEBUG: Plots the let/long of the zipped vector for easy visual validation.
         '''
         numpy_vector = np.array(self.zipped_vector)
-        print(numpy_vector)
+        # print(numpy_vector)
         plt.plot(numpy_vector[:, 1], numpy_vector[:, 0], 'o')
         plt.title('VALIDATE ZIPPED VECTOR')
         plt.xlabel('Longitude')
