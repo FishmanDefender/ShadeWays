@@ -2,14 +2,14 @@ import googlemaps
 from datetime import datetime
 
 
-def googleapi(start_lat, start_lng, finish_lat, finish_lng):
+def googleapi(start_tup, finish_tup):
     gmaps = googlemaps.Client(key='AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg')
 
     # Request directions via public transit
     now = datetime.now()
 
-    prompt1=gmaps.reverse_geocode((start_lat, start_lng))
-    prompt2=gmaps.reverse_geocode((finish_lat, finish_lng))
+    prompt1=gmaps.reverse_geocode(start_tup)
+    prompt2=gmaps.reverse_geocode(finish_tup)
     directions_result = gmaps.directions(prompt1,
                                          prompt2,
                                          mode="walking",

@@ -11,4 +11,4 @@ def overlap(shadowlist, path_coords):
     delta_lat, delta_long = (path_bounds[2]-path_bounds[0]), (path_bounds[3]-path_bounds[1])
 
     grid_spacing = max(delta_lat,delta_long)/1000
-    grid_coords = list(zip(list(np.linspace(0,)),list()))
+    grid_lat, grid_long = list(np.arange(0,delta_lat,grid_spacing)),list(np.arange(0,delta_long,grid_spacing))
