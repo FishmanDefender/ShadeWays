@@ -10,5 +10,5 @@ def main(tup_start, tup_end):
     important_values = osm.get_elements()
     lat0, long0 = important_values[0][0:2]
     shadowlist = shadowFinder(important_values, lat0, long0)
-
+    
     return percent, directions_result
