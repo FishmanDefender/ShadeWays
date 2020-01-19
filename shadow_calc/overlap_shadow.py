@@ -16,8 +16,15 @@ Grid method of calculating overlap:
     path_lat, path_long = [x[0] for x in path_coords], [x[1] for x in path_coords]
     path_bounds = (min(path_lat), min(path_long), max(path_lat), max(path_long))
     delta_lat, delta_long = (path_bounds[2]-path_bounds[0]), (path_bounds[3]-path_bounds[1])
+<<<<<<< HEAD
     grid_spacing = max(delta_lat,delta_long)/10000
     grid_lat, grid_long = list(np.arange(path_bounds[0],delta_lat+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta_long+path_bounds[1],grid_spacing))
+=======
+    #grid_spacing = max(delta_lat,delta_long)/10000
+    delta = max(delta_lat,delta_long)
+    grid_spacing = 1e-6
+    grid_lat, grid_long = list(np.arange(path_bounds[0],delta+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta+path_bounds[1],grid_spacing))
+>>>>>>> 17be4ab89d96217233b59751846f1e7a133bf1a1
 
     interpolated_path = []
     for i in range(len(path_coords)-1):
@@ -31,12 +38,38 @@ Grid method of calculating overlap:
     Then to coerce the result points to the grid points.
     Then to remove any duplicate points.
 '''
+<<<<<<< HEAD
 
     grid_path_associations = []
     for lat_val in grid_lat:
         for long_val in grid_long:
             for point in interpolated_path:
                 if
+=======
+    path_grid_index = []
+    path_lengths = []
+    point_holder = []
+
+    for i in range(len(path_lat)-1):
+        path_lengths.append(((path_lat[i+1]-path_lat[i])**2+(path_long[i+1]-path_long[i])**2)**(1/2))
+    for i in range(len(path_lat)-1):
+        t = 0
+        while (t<path_lengths[i]):
+            point = [round((((path_lat[i+1]-path_lat[i])/path_lengths[i])*t+path_lat[i]),6),round((((path_long[i+1]-path_long[i])/path_lengths[i])*t+path_long[i]),6)]
+            point_holder.append(point)
+            t = t + 1e-7
+            #search grid for point
+            k = 0
+            while (k<len(grid_lat)):
+                if (point[0] == grid_lat[k]):
+                    if (point[1] == grid_long[k]):
+                        path_grid_index.append(k)
+                k = k + 1
+    #remove duplicates from the list
+    path_grid_index = list(dict.fromkeys(path_grid_index))
+    
+
+>>>>>>> 17be4ab89d96217233b59751846f1e7a133bf1a1
 
 
 '''
