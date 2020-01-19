@@ -5,8 +5,6 @@ from datetime import datetime
 def googleapi(start, finish):
     gmaps = googlemaps.Client(key='AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg')
 
-
-
     # Request directions via public transit
     now = datetime.now()
 
@@ -17,15 +15,12 @@ def googleapi(start, finish):
                                          mode="walking",
                                          departure_time=now)
 
-
     d_r= ''.join(str(directions_result))
     d_r_string=d_r.split()
     length=len(d_r_string)
     listoflists =[]
     latlng=[]
     counter=0
-
-
 
     new_output=dict(directions_result[0])
     keys=new_output.keys()
@@ -49,8 +44,7 @@ def googleapi(start, finish):
             listoflists.append(latlng)
             latlng=[]
 
-    return listoflists
-
+    return listoflists, directions_result
 
 def listToString(s):
 
