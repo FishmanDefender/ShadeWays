@@ -30,12 +30,18 @@ Grid method of calculating overlap:
 '''
     path_grid = []
     path_lengths = []
+    point_holder = []
 
     for i in range(len(path_lat)-1):
         path_lengths.append(((path_lat[i+1]-path_lat[i])**2+(path_long[i+1]-path_long[i])**2)**(1/2))
-    for i in range(len(path_lat)):
+    for i in range(len(path_lat)-1):
+        t = 0
+        while (t<path_lengths[i]):
+            point = [(((path_lat[i+1]-path_lat[i])/path_lengths[i])*t+path_lat[i]),(((path_long[i+1]-path_long[i])/path_lengths[i])*t+path_long[i])]
+            point_holder.append(point)
+            t = t + 1e-7
+            #search grid for point
 
-        (path_lat[i+1]-path_lat[i]
 
 '''
 3. Import the shadow parallelograms. Associate grid points with the shadows. Remove duplicate points from the list.
