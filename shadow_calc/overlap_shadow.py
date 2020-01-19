@@ -17,8 +17,9 @@ Grid method of calculating overlap:
     path_bounds = (round(min(path_lat),6), round(min(path_long),6), round(max(path_lat),6), round(max(path_long),6))
     delta_lat, delta_long = (path_bounds[2]-path_bounds[0]), (path_bounds[3]-path_bounds[1])
     #grid_spacing = max(delta_lat,delta_long)/10000
+    delta = max(delta_lat,delta_long)
     grid_spacing = 1e-6
-    grid_lat, grid_long = list(np.arange(path_bounds[0],delta_lat+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta_long+path_bounds[1],grid_spacing))
+    grid_lat, grid_long = list(np.arange(path_bounds[0],delta+path_bounds[0],grid_spacing)),list(np.arange(path_bounds[1],delta+path_bounds[1],grid_spacing))
 
 '''
 2. Associate grid points with the path. Store them in a list.
@@ -28,7 +29,7 @@ Grid method of calculating overlap:
     Then to coerce the result points to the grid points.
     Then to remove any duplicate points.
 '''
-    path_grid = []
+    path_grid_index = []
     path_lengths = []
     point_holder = []
 
@@ -37,10 +38,20 @@ Grid method of calculating overlap:
     for i in range(len(path_lat)-1):
         t = 0
         while (t<path_lengths[i]):
-            point = [(((path_lat[i+1]-path_lat[i])/path_lengths[i])*t+path_lat[i]),(((path_long[i+1]-path_long[i])/path_lengths[i])*t+path_long[i])]
+            point = [round((((path_lat[i+1]-path_lat[i])/path_lengths[i])*t+path_lat[i]),6),round((((path_long[i+1]-path_long[i])/path_lengths[i])*t+path_long[i]),6)]
             point_holder.append(point)
             t = t + 1e-7
             #search grid for point
+            k = 0
+            while (k<len(grid_lat)):
+                if (point[0] == grid_lat[k]):
+                    if (point[1] == grid_long[k]):
+                        path_grid_index.append(k)
+                k = k + 1
+    #remove duplicates from the list
+    path_grid_index = list(dict.fromkeys(path_grid_index))
+    
+
 
 
 '''
