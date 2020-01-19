@@ -30,11 +30,11 @@ Grid method of calculating overlap:
 '''
     path_grid = []
     path_lengths = []
-    
+
     for i in range(len(path_lat)-1):
         path_lengths.append(((path_lat[i+1]-path_lat[i])**2+(path_long[i+1]-path_long[i])**2)**(1/2))
     for i in range(len(path_lat)):
-        while
+
         (path_lat[i+1]-path_lat[i]
 
 '''
