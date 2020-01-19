@@ -3,6 +3,7 @@ from flask import render_template
 from flask import jsonify
 from app import app
 import numpy as np
+from main import main
 
 @app.route('/')
 @app.route('/index')
@@ -15,9 +16,8 @@ def index():
 def welcome():
     return "Hello, World! Greetings from HackAZ 2020!"
 
-@app.route('/<float:lat>/<float:long>')
-def get_percent(lat,long):
-    placeholder = (lat+long)
-    placeholder_data = list(zip(list(np.linspace(0,100,25)),list(np.linspace(-118.7,-110.8,25))))
-    d = {'percent':placeholder, 'paths':placeholder_data}
+@app.route('/<float:lat1>/<float:long1>/<float:lat2>/<float:long2>/')
+def get_percent(lat1,long1,lat2,long2):
+    percent, google_query = main((lat1,long1),(lat2,long2))
+    d = {'percent':percent, 'google_api':google_query}
     return jsonify(d)
