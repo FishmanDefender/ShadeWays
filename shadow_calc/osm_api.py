@@ -65,20 +65,22 @@ class OSMAPI:
         [elements.extend(dic['elements']) for dic in list(self.query_data)]
         # print(elements)
 
-        lat, long, height, width = [], [], [], []
+        lat, long, heights, widths = [], [], [], []
         for elem in elements:
             if elem['type'] == 'node':
                 lat.append(float(elem['lat']))
                 long.append(float(elem['lon']))
-                height.append(float(elem['tags']['height']))
-                width.append(0.0)
+                heights.append(float(elem['tags']['height']))
+                widths.append(0.0)
             if elem['type'] == 'way' or 'relation':
                 minlat, minlon, maxlat, maxlon = elem['bounds']['minlat'], elem['bounds']['minlon'], elem['bounds']['maxlat'], elem['bounds']['maxlon']
                 lat.append(float((maxlat-minlat)/2)+minlat)
                 long.append(float((maxlon-minlon)/2)+minlon)
-                height.append(float(elem['tags']['height']))
-                width.append(math.sqrt(float(maxlat-minlat)**2 + float(maxlon-minlon)**2))
-        self.zipped_vector = list(zip(lat,long,width,height))
+                height_string = elem['tags']['height']
+                height = float(''.join(i for i in height_string if i.isdigit()))
+                heights.append(height)
+                widths.append(math.sqrt(float(maxlat-minlat)**2 + float(maxlon-minlon)**2))
+        self.zipped_vector = list(zip(lat,long,widths,heights))
         return self.zipped_vector
 
     def debug_vector(self):
