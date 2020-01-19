@@ -10,6 +10,7 @@ def googleapi(start_tup, finish_tup):
 
     prompt1=gmaps.reverse_geocode(start_tup)
     prompt2=gmaps.reverse_geocode(finish_tup)
+    print(prompt1, prompt2)
     directions_result = gmaps.directions(prompt1,
                                          prompt2,
                                          mode="walking",
