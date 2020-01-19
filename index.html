@@ -4,9 +4,14 @@
     <script src="https://use.fontawesome.com/74b73bf2b5.js"></script>
     <link rel="stylesheet" href="style.css">
 
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg"></script>
+
     <script src="./js/jquery-3.4.1.min.js"></script>
-    <script src="./js/script.js"></script>
+    <script src="./js/sample.js"></script>
+    <!-- <script src="./js/script.js"></script> -->
     <script src="apiKey.js"></script>
+
   </head>
   <body>
     <div id="map"></div>
@@ -33,45 +38,76 @@
     </div>
     
     <script>
-      let map;
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
           center: new google.maps.LatLng(34.0995,-118.3430),
           mapTypeId: 'roadmap',
           disableDefaultUI: true
         });
+        directionsRenderer.setMap(map);
 
-        let script = document.createElement('script');
-        // sample JSON
-        // https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js
-        script.src = '';
-        document.getElementsByTagName('head')[0].appendChild(script);
-      }
+        $('#search').click(function(){
+          calculateAndDisplayRoute(directionsService, directionsRenderer);
 
-      function genScript(){
-        let scriptAD = document.createElement('script');
-        scriptAD.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
-        scriptAD.async = true;
-        scriptAD.defer = true;
-        document.getElementsByTagName('head')[0].appendChild(scriptAD);
-      }
+          $(".change").attr({
+                    class: "change min addy"
+                });
 
-      genScript();
-      //change eqfeed_callback in script.src
-      window.eqfeed_callback = function(results) {
-        for (let i = 0; i < results.features.length; i++) {
-          let coords = results.features[i].geometry.coordinates;
-          let latLng = new google.maps.LatLng(coords[1],coords[0]);
-          let marker = new google.maps.Marker({
-            position: latLng,
-            map: map
+          $(".container").attr({
+              class: "container move"
           });
-        }
+
+          $("#currentLoc").hide();
+
+          $(".logo").hide();
+
+          $("#search").hide();
+
+          $(".addy").css("width", "40vw");
+
+          let shadePerc = Math.random().toFixed(4)*100;
+
+          $(".container").append(`<div id='shadeBox'>Your route is ${shadePerc}% covered in shade</div>`);
+        });
+      }
+
+      $('#currentLoc').click(function(){
+        navigator.geolocation.getCurrentPosition(function(pos){
+            console.log(pos);
+            startLat = pos.coords.latitude;
+            startLong = pos.coords.longitude;
+            // convert coords to address
+            $.ajax({
+                url : `https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.coords.latitude},${pos.coords.longitude}&key=${apiKey}`,
+                method : "GET"
+            }).then(function(response){
+                // console.log(response.results[0].formatted_address);
+                $('#startLoc').val(response.results[0].formatted_address);
+            });
+        });
+    });
+
+      function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        directionsService.route(
+            {
+              origin: {query: document.getElementById('startLoc').value},
+              destination: {query: document.getElementById('endLoc').value},
+              travelMode: 'WALKING'
+            },
+            function(response, status) {
+              if (status === 'OK') {
+                directionsRenderer.setDirections(response);
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+            });
       }
     </script>
-    <!-- <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=initMap">
-    </script> -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg&callback=initMap">
+    </script>
   </body>
 </html>
