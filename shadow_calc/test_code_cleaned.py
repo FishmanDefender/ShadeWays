@@ -1,5 +1,7 @@
 import googlemaps
 from datetime import datetime
+from flask import jsonify
+import json
 
 
 def googleapi(start_tup, finish_tup):
@@ -12,6 +14,9 @@ def googleapi(start_tup, finish_tup):
                                         destination=(finish_tup[0],finish_tup[1]),
                                         mode='walking',
                                         departure_time='now')
+
+    # with open('output.json','w+') as f:
+    #     json.dump(directions_result,f)
 
     d_r= ''.join(str(directions_result))
     d_r_string=d_r.split()
