@@ -6,9 +6,19 @@ $(document).ready(function () {
     let endLat;
     let endLong;
 
-    function Position(lat, long){
-        this.lat = lat;
-        this.long = long;
+    function calcRoute(start,end) {
+        let request = {
+          origin:start,
+          destination:end,
+          travelMode: google.maps.TravelMode.DRIVING,
+          provideRouteAlternatives : false
+        };
+        directionsService.route(request, function(result, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(sampleObj);
+            //displayDirections(result);
+          }
+        });
     }
 
 
@@ -31,14 +41,33 @@ $(document).ready(function () {
                 endLat = response.results[0].geometry.location.lat;
                 endLong = response.results[0].geometry.location.lng;
 
-                let startObj = new Position(startLat, startLong);
-                let endObj = new Position(endLat, endLong);
+                let startObj = new google.maps.LatLng(startLat, startLong);
+                let endObj = new google.maps.LatLng(endLat, endLong);
+
+                let routeThing = calcRoute(startObj, endObj);
 
                 console.log(startObj);
                 console.log(endObj);
 
                 // ajax request to python server
-                
+                // `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLong}&destination=${endLat},${engLong}&key=AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg`
+
+                // $.ajax({
+                //     url : `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLong}&destination=${endLat},${endLong}&key=AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg`,
+                //     method : "GET"
+                // }).then(function(response){
+                //     console.log(response);
+                // });
+
+
+                // $.ajax({
+                //     url : `https://maps.googleapis.com/maps/api/directions/json?origin=${startLat},${startLong}&destination=${endLat},${endLong}&key=AIzaSyCCKpKX4eqJYPKQOB-HlcuxdlOArp_0nNg`,
+                //     method : "GET"
+                // }).then(function(response){
+                //     console.log(response);
+                // });
+
+                calculateAndDisplayRoute(directionsService, directionsRenderer);
 
                 $(".change").attr({
                     class: "change min addy"
@@ -61,6 +90,22 @@ $(document).ready(function () {
 
 
     });
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        let start = document.getElementById('start').value;
+        let end = document.getElementById('end').value;
+        directionsService.route({
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsRenderer.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+    }
 
     // option for current location
     $('#currentLoc').click(function(){
