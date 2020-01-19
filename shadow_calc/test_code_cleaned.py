@@ -8,12 +8,10 @@ def googleapi(start_tup, finish_tup):
     # Request directions via public transit
     now = datetime.now()
 
-    prompt1=gmaps.reverse_geocode(start_tup,'ROOFTOP','street_address')
-    prompt2=gmaps.reverse_geocode(finish_tup,'ROOFTOP','street_address')
-    directions_result = gmaps.directions(prompt1,
-                                         prompt2,
-                                         mode="walking",
-                                         departure_time=now)
+    directions_result = gmaps.directions(origin=(start_tup[0],start_tup[1]),
+                                        destination=(finish_tup[0],finish_tup[1]),
+                                        mode='walking',
+                                        departure_time='now')
 
     d_r= ''.join(str(directions_result))
     d_r_string=d_r.split()
