@@ -22,8 +22,13 @@ Grid method of calculating overlap:
 
 '''
 2. Associate grid points with the path. Store them in a list.
-	2.1. Associate grid points with the path: The easiest method might be to parametrize the line. Then to plug in the line parameter with discrete intervals. Then to coerce the result points to the grid points. Then to remove any duplicate points.
+	2.1. Associate grid points with the path:
+        The easiest method might be to parametrize the line.
+        Then to plug in the line parameter with discrete intervals.
+    Then to coerce the result points to the grid points.
+    Then to remove any duplicate points.
 '''
+
 
 '''
 3. Import the shadow parallelograms. Associate grid points with the shadows. Remove duplicate points from the list.
